@@ -1,0 +1,1 @@
+export { primeFactorization } from './primeFactorization';
