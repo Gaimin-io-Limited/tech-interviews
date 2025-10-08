@@ -24,6 +24,16 @@ This environment is organized into 10 progressive problems, ranging from fundame
 
 Each folder contains a `README.md` with the problem description, requirements, test cases, and guiding questions.
 
+## Equity & Inclusion
+
+To ensure the fairness of the problems, we implemented each of these algorithms to ensure the test cases are correct for compatible implementations. We also ensured that the problems we present are accessible to all users, regardless of their background or experience level.
+
+## AI Use
+
+In today's world it is impossible to avoid the use of AI in solving problems. Internally, we use LLMs for a variety of tasks, including generating test cases and providing initial feedback on solutions. However, we are firm believers in "human-in-the-loop" AI - where AI models are used to assist humans in solving problems but do not replace human solutions or judgment.
+
+As part of that, we have provided a predefined LLM instruction file with this repo to guide the models in an expected way.
+
 ## Getting Started
 
 1. Work through the problems in order - they build on each other conceptually
