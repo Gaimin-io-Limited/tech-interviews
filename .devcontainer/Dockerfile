@@ -1,14 +1,27 @@
 FROM mcr.microsoft.com/devcontainers/base:ubuntu
 
 # Set environment variables
-ENV DEBIAN_FRONTEND=noninteractive
-ENV GO_VERSION=1.22.0
-ENV RUST_VERSION=stable
-ENV NODE_VERSION=20.x
-ENV DOTNET_VERSION=8.0
+ENV DEBIAN_FRONTEND=noninteractive \
+    GO_VERSION=1.22.0 \
+    RUST_VERSION=stable \
+    NODE_VERSION=20.x \
+    DOTNET_VERSION=8.0 \
+    JAVA_VERSION=21
 
-# Install common dependencies
+# Setup non-root user early
+ARG USERNAME=vscode
+ARG USER_UID=1000
+ARG USER_GID=$USER_UID
+
+# Add external repositories first (Node.js and .NET)
+RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - \
+    && wget https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
+    && dpkg -i packages-microsoft-prod.deb \
+    && rm packages-microsoft-prod.deb
+
+# Install all apt packages in a single layer
 RUN apt-get update && apt-get install -y \
+    # Common dependencies
     build-essential \
     curl \
     wget \
@@ -20,35 +33,11 @@ RUN apt-get update && apt-get install -y \
     lsb-release \
     software-properties-common \
     apt-transport-https \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Node.js and npm (for JavaScript/TypeScript)
-RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - \
-    && apt-get install -y nodejs \
-    && npm install -g typescript ts-node yarn pnpm \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Python 3 and pip
-RUN apt-get update && apt-get install -y \
+    # Python
     python3 \
     python3-pip \
     python3-venv \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Go
-RUN wget https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz \
-    && tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz \
-    && rm go${GO_VERSION}.linux-amd64.tar.gz
-ENV PATH="${PATH}:/usr/local/go/bin"
-ENV GOPATH="/home/vscode/go"
-ENV PATH="${PATH}:${GOPATH}/bin"
-
-# Install Rust
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain ${RUST_VERSION}
-ENV PATH="/root/.cargo/bin:${PATH}"
-
-# Install C/C++ tools
-RUN apt-get update && apt-get install -y \
+    # C/C++ tools
     gcc \
     g++ \
     gdb \
@@ -57,50 +46,49 @@ RUN apt-get update && apt-get install -y \
     clang \
     clang-format \
     clang-tidy \
-    && rm -rf /var/lib/apt/lists/*
-
-# Install Java (OpenJDK)
-RUN apt-get update && apt-get install -y \
-    openjdk-17-jdk \
+    # Java (LTS)
+    openjdk-${JAVA_VERSION}-jdk \
     maven \
     gradle \
-    && rm -rf /var/lib/apt/lists/*
-ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-ENV PATH="${PATH}:${JAVA_HOME}/bin"
-
-# Install .NET SDK (for C#)
-RUN wget https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb -O packages-microsoft-prod.deb \
-    && dpkg -i packages-microsoft-prod.deb \
-    && rm packages-microsoft-prod.deb \
-    && apt-get update \
-    && apt-get install -y dotnet-sdk-${DOTNET_VERSION} \
+    # Node.js
+    nodejs \
+    # .NET SDK
+    dotnet-sdk-${DOTNET_VERSION} \
+    # Sudo for user setup
+    sudo \
     && rm -rf /var/lib/apt/lists/*
 
-# Setup non-root user
-ARG USERNAME=vscode
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
+# Install npm global packages
+RUN npm install -g typescript ts-node yarn pnpm
 
-# Create the user if it doesn't exist
+# Create user if it doesn't exist
 RUN if ! id -u ${USERNAME} > /dev/null 2>&1; then \
         groupadd --gid $USER_GID $USERNAME \
         && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
-        && apt-get update \
-        && apt-get install -y sudo \
         && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
-        && chmod 0440 /etc/sudoers.d/$USERNAME \
-        && rm -rf /var/lib/apt/lists/*; \
+        && chmod 0440 /etc/sudoers.d/$USERNAME; \
     fi
 
-# Install Rust for the vscode user
+# Install Go
+RUN wget https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz \
+    && tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz \
+    && rm go${GO_VERSION}.linux-amd64.tar.gz
+
+# Switch to non-root user for Rust installation and setup
 USER ${USERNAME}
+
+# Install Rust (only once, for the user)
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain ${RUST_VERSION}
-ENV PATH="/home/${USERNAME}/.cargo/bin:${PATH}"
 
 # Create Go workspace
 RUN mkdir -p /home/${USERNAME}/go/{bin,src,pkg}
 
-USER root
+# Set environment variables for user
+ENV PATH="/home/${USERNAME}/.cargo/bin:/usr/local/go/bin:${PATH}" \
+    GOPATH="/home/${USERNAME}/go" \
+    JAVA_HOME="/usr/lib/jvm/java-${JAVA_VERSION}-openjdk-amd64"
+
+ENV PATH="${PATH}:${GOPATH}/bin:${JAVA_HOME}/bin"
 
 # Verify installations
 RUN echo "Verifying installations..." \
@@ -118,6 +106,4 @@ RUN echo "Verifying installations..." \
     && javac -version \
     && dotnet --version
 
-# Set the default user
-USER ${USERNAME}
 WORKDIR /workspace
