@@ -1,0 +1,10 @@
+[package]
+name = "problem-06-prime-patterns"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "prime_patterns"
+path = "src/lib.rs"
+
+[dependencies]

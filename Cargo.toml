@@ -1,0 +1,14 @@
+[workspace]
+members = [
+    "problem-01/rust",
+    "problem-02/rust",
+    "problem-03/rust",
+    "problem-04/rust",
+    "problem-05/rust",
+    "problem-06/rust",
+    "problem-07/rust",
+    "problem-08/rust",
+    "problem-09/rust",
+    "problem-10/rust",
+]
+resolver = "2"

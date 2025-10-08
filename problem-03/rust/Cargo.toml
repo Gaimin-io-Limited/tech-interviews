@@ -1,0 +1,10 @@
+[package]
+name = "problem-03-sieve-eratosthenes"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "sieve_eratosthenes"
+path = "src/lib.rs"
+
+[dependencies]

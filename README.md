@@ -32,7 +32,13 @@ To ensure the fairness of the problems, we implemented each of these algorithms 
 
 In today's world it is impossible to avoid the use of AI in solving problems. Internally, we use LLMs for a variety of tasks, including generating test cases and providing initial feedback on solutions. However, we are firm believers in "human-in-the-loop" AI - where AI models are used to assist humans in solving problems but do not replace human solutions or judgment.
 
-As part of that, we have provided a predefined LLM instruction file with this repo to guide the models in an expected way.
+**This repository includes AI assistant guidelines** (`AI_INSTRUCTIONS.md`) that instruct language models to act as teachers rather than solution providers. The AI will:
+- Guide you toward understanding without solving problems directly
+- Help debug your code and explain concepts
+- Point you to relevant tests and requirements
+- Ask probing questions using the Socratic method
+
+The AI will **not** write complete implementations for you. This ensures you learn and grow through the process of solving these problems yourself.
 
 ## Getting Started
 
@@ -92,6 +98,91 @@ Pre-installed extensions for each language provide IntelliSense, debugging, and 
 2. When prompted, click "Reopen in Container" (or run `Dev Containers: Reopen in Container` from the command palette)
 3. Wait for the container to build (first time only)
 4. Start coding in your preferred language!
+
+## Running Tests
+
+This repository contains **two separate implementations** of all 10 problems:
+- **TypeScript** (`problem-*/ts/`) - Managed by npm workspaces
+- **Rust** (`problem-*/rust/`) - Managed by Cargo workspace
+
+These are completely independent - you can work with either or both.
+
+---
+
+## TypeScript Tests (npm workspace)
+
+The TypeScript implementations use **npm workspaces** to manage all 10 problems.
+
+### Run All TypeScript Tests (Detailed)
+```bash
+npm test
+```
+Runs all test suites across all 10 TypeScript problems with detailed output.
+
+### Run All TypeScript Tests (Summary)
+```bash
+npm run test:summary
+# or
+./scripts/npm-test-summary.sh
+```
+Shows a clean summary of test results for each problem:
+```
+Problem 01: 11 passed, 7 failed (total: 18)
+Problem 02: 4 passed, 13 failed (total: 17)
+...
+Total Tests Passed: 62
+Total Tests Failed: 170
+```
+
+### Run Tests for a Single TypeScript Problem
+```bash
+cd problem-01/ts
+npm test
+```
+
+### Build All TypeScript Projects
+```bash
+npm run build
+```
+
+### Other npm Commands
+- `npm install` - Install dependencies for all TypeScript workspaces
+- `npm run clean` - Clean all TypeScript build artifacts and node_modules
+
+---
+
+## Rust Tests (Cargo workspace)
+
+The Rust implementations use a **Cargo workspace** to manage all 10 problems.
+
+### Run All Rust Tests (Recommended)
+```bash
+./scripts/cargo-test-summary.sh
+```
+Uses `cargo-nextest` for better test output with a summary at the end. Auto-installs cargo-nextest if not present.
+
+### Run All Rust Tests (Standard)
+```bash
+cargo test --no-fail-fast --lib
+```
+Uses standard cargo test. The `--no-fail-fast` flag continues testing all packages even when some fail.
+
+### Run Tests for a Single Rust Problem
+```bash
+cargo test -p problem-01-primality-testing
+```
+
+### Build All Rust Projects
+```bash
+cargo build
+```
+
+### Other Cargo Commands
+- `cargo check` - Check code without building
+- `cargo clean` - Remove build artifacts
+- `cargo nextest run --no-fail-fast --lib` - Run tests with nextest directly
+
+---
 
 ## Approach
 

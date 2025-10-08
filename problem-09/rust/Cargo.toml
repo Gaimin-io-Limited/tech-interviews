@@ -1,0 +1,10 @@
+[package]
+name = "problem-09-prime-count"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "prime_count"
+path = "src/lib.rs"
+
+[dependencies]

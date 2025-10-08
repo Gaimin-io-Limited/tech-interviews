@@ -5,6 +5,11 @@
 **/*.tsbuildinfo
 **/package-lock.json
 
+# Rust
+**/target/
+**/Cargo.lock
+**/*.rs.bk
+
 # Test coverage
 **/coverage/
 **/.nyc_output/

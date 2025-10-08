@@ -1,0 +1,11 @@
+[package]
+name = "problem-10-miller-rabin"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "miller_rabin"
+path = "src/lib.rs"
+
+[dependencies]
+rand = "0.8"

@@ -12,7 +12,7 @@
   },
   "keywords": ["prime", "sieve", "algorithm"],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.19",

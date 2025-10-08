@@ -1,0 +1,19 @@
+{
+  "name": "interview-env",
+  "version": "1.0.0",
+  "description": "GAIMIN Technical Exercise: Prime Number Algorithms",
+  "private": true,
+  "workspaces": [
+    "problem-*/ts"
+  ],
+  "scripts": {
+    "test": "npm test --workspaces --if-present",
+    "test:summary": "./scripts/npm-test-summary.sh",
+    "build": "npm run build --workspaces --if-present",
+    "clean": "npm run clean --workspaces --if-present && rm -rf node_modules",
+    "install:all": "npm install --workspaces"
+  },
+  "keywords": ["primes", "algorithms", "interview"],
+  "author": "",
+  "license": "MIT"
+}

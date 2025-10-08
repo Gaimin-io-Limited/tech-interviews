@@ -1,0 +1,10 @@
+[package]
+name = "problem-01-primality-testing"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "primality_testing"
+path = "src/lib.rs"
+
+[dependencies]

@@ -1,0 +1,10 @@
+[package]
+name = "problem-07-segmented-sieve"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "segmented_sieve"
+path = "src/lib.rs"
+
+[dependencies]

@@ -1,0 +1,13 @@
+[package]
+name = "problem-02-prime-sequences"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "prime_sequences"
+path = "src/lib.rs"
+
+[dependencies]
+
+[dev-dependencies]
+problem-01-primality-testing = { path = "../../problem-01/rust" }
