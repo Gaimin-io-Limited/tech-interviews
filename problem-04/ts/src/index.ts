@@ -1,0 +1,1 @@
+export { sieveOfSundaram } from './sieveOfSundaram';
