@@ -1,0 +1,23 @@
+# TypeScript
+**/node_modules/
+**/dist/
+**/build/
+**/*.tsbuildinfo
+**/package-lock.json
+
+# Test coverage
+**/coverage/
+**/.nyc_output/
+
+# Logs
+**/*.log
+
+# Environment
+**/.env
+**/.env.local
+
+# IDEs
+.vscode/
+.idea/
+**/.DS_Store
+**/*.swp

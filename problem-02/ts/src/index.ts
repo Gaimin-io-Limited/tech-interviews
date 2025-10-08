@@ -1,0 +1,1 @@
+export { generateNPrimes } from './generateNPrimes';
