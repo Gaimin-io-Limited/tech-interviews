@@ -1,0 +1,30 @@
+{
+  "name": "Multi-Language Dev Environment",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "golang.go",
+        "rust-lang.rust-analyzer",
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools",
+        "vscjava.vscode-java-pack",
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit",
+        "ms-vsliveshare.vsliveshare"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "forwardPorts": [],
+  "postCreateCommand": "echo 'Dev container ready!'",
+  "remoteUser": "vscode"
+}
