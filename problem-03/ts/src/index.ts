@@ -1,0 +1,1 @@
+export { sieveOfEratosthenes } from './sieveOfEratosthenes';
