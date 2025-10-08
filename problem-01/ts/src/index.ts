@@ -1,0 +1,1 @@
+export { isPrime } from './isPrime';
