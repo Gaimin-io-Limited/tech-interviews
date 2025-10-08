@@ -1,0 +1,1 @@
+export { primeCount } from './primeCount';

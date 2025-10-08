@@ -1,0 +1,1 @@
+export { nthPrime } from './nthPrime';
