@@ -8,16 +8,17 @@
       "extensions": [
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
+        "GitHub.copilot",
+        "golang.go",
+        "ms-dotnettools.csdevkit",
+        "ms-dotnettools.csharp",
         "ms-python.python",
         "ms-python.vscode-pylance",
-        "golang.go",
-        "rust-lang.rust-analyzer",
-        "ms-vscode.cpptools",
         "ms-vscode.cmake-tools",
-        "vscjava.vscode-java-pack",
-        "ms-dotnettools.csharp",
-        "ms-dotnettools.csdevkit",
-        "ms-vsliveshare.vsliveshare"
+        "ms-vscode.cpptools",
+        "ms-vsliveshare.vsliveshare",
+        "rust-lang.rust-analyzer",
+        "vscjava.vscode-java-pack"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "bash"
